@@ -1,7 +1,12 @@
-<div id="box" style="text-align:center" class="p-6">
-  <p-fileUpload (uploadHandler)="selectImage($event)" [customUpload]="true" [auto]="true" accept="image/*">
+<div class="app-container grid p-6" style="text-align:center">
+  <p-fileUpload class="col-12" (uploadHandler)="selectImage($event)" [customUpload]="true" [auto]="true"
+    accept="image/*" chooseLabel="Choose image">
   </p-fileUpload>
   <img [src]="url" id="image">
-  <button pButton class="p-button-primary" (click)="editImage()">Edit image</button>
-  <button pButton class="p-button-danger" (click)="downloadImage()">Download image</button>
+  <div class="col-12">
+    <button *ngIf="url && !(isImageVisible$ | async)" pButton class="p-button-primary" (click)="editImage()">
+      <i class="pi pi-pencil mr-2"></i>Edit image</button>
+    <button *ngIf="isImageVisible$ | async" pButton class="p-button-danger" (click)="downloadImage()">
+      <i class="pi pi-download mr-2"></i> Download image</button>
+  </div>
 </div>
