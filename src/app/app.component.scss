@@ -1,3 +1,23 @@
-#image {
-  display: none;
+.app-container {
+  #image {
+    display: none;
+  }
+
+  .download-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .edit-button {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .menu-button {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+  }
 }

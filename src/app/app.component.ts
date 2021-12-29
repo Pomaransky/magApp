@@ -17,12 +17,10 @@ export class AppComponent {
   texture: any;
   filename: string = '';
   isImageVisible$ = new BehaviorSubject<boolean>(false);
+  display = false;
 
   selectImage(event: any) {
-    if (this.canvas) {
-      this.canvas.remove();
-      this.isImageVisible$.next(false);
-    }
+    this.removeImage();
     this.selectedFile = event.files[0];
     this.filename = event.files[0].name;
     this.reader.readAsDataURL(this.selectedFile);
@@ -31,7 +29,7 @@ export class AppComponent {
     };
   }
 
-  editImage() {
+  editSelectedImage() {
     if (this.selectedFile) {
       this.canvas = fx.canvas();
       let image = document.getElementById('image');
@@ -39,6 +37,7 @@ export class AppComponent {
       this.canvas.draw(this.texture).update(); //before update use filters
       if (image?.parentNode) {
         this.canvas.classList.add('mx-auto');
+        this.canvas.classList.add('max-w-full');
         this.isImageVisible$.next(true);
         image.parentNode.insertBefore(this.canvas, image);
       }
@@ -53,5 +52,18 @@ export class AppComponent {
     link.download = `${this.filename}-editedByMagApp.png`;
     link.href = this.canvas.toDataURL();
     link.click();
+    this.removeImage();
+  }
+
+  removeImage() {
+    if (this.canvas) {
+      this.canvas.remove();
+      this.isImageVisible$.next(false);
+      this.url = null;
+    }
+  }
+
+  inkValueChange(event: any) {
+    this.canvas.draw(this.texture).ink(event.target.value).update();
   }
 }

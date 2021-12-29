@@ -1,0 +1,17 @@
+.image-upload-class {
+  &.p-fileupload {
+    background-color: transparent;
+
+    .p-fileupload {
+      &-buttonbar {
+        background: transparent;
+        border: 0;
+      }
+
+      &-content {
+        border: 0;
+        background: transparent;
+      }
+    }
+  }
+}
