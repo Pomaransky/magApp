@@ -9,11 +9,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { StoreModule } from '@ngrx/store';
+import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers } from './store/reducers';
+import { AppFacade } from './app.facade';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('app', reducers),
     AppRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
@@ -21,8 +28,12 @@ import { AppComponent } from './app.component';
     SidebarModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
-  providers: [],
+  providers: [AppFacade],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

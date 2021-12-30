@@ -4,6 +4,7 @@ import { Component, EventEmitter, Injectable, Output } from '@angular/core';
 import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { AppFacade } from './app.facade';
 @Injectable()
 @Component({
   selector: 'app-root',
@@ -18,9 +19,22 @@ export class AppComponent {
   texture: any;
   filename: string = '';
   isImageVisible$ = new BehaviorSubject<boolean>(false);
-  display = false;
 
-  constructor(private glfxFiltersService: GlfxFiltersService) {}
+  // from ngrx store below:
+  isMenuVisible$ = this.appFacade.isMenuVisible$;
+
+  constructor(
+    private glfxFiltersService: GlfxFiltersService,
+    private appFacade: AppFacade
+  ) {}
+
+  showMenu(): void {
+    this.appFacade.showMenu();
+  }
+
+  hideMenu(): void {
+    this.appFacade.hideMenu();
+  }
 
   selectImage(event: any) {
     if (this.canvas) {
@@ -33,7 +47,7 @@ export class AppComponent {
       this.url = this.reader.result;
     };
     setTimeout(() => {
-      this.display = false;
+      this.appFacade.hideMenu();
     }, 1000);
   }
 

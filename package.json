@@ -18,6 +18,8 @@
     "@angular/platform-browser": "~12.1.2",
     "@angular/platform-browser-dynamic": "~12.1.2",
     "@angular/router": "~12.1.2",
+    "@ngrx/store": "^12.5.1",
+    "@ngrx/store-devtools": "^12.5.1",
     "glfx-es6": "0.0.3",
     "primeflex": "^3.1.2",
     "primeicons": "^5.0.0",

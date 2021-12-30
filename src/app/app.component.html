@@ -1,7 +1,7 @@
 <div class="app-container grid py-6" style="text-align:center">
-  <p-button type="text" (click)="display = true" icon="pi pi-upload" label="Upload image" class="menu-button">
+  <p-button type="text" (click)="showMenu()" icon="pi pi-upload" label="Upload image" class="menu-button">
   </p-button>
-  <p-sidebar [(visible)]="display" position="top" styleClass="upload-sidebar-class">
+  <p-sidebar [visible]="isMenuVisible$ | async" position="top" styleClass="upload-sidebar-class" (onHide)="hideMenu()">
     <p-fileUpload (uploadHandler)="selectImage($event)" (onRemove)="removeImage()" [customUpload]="true" [auto]="true"
       accept=".png,.jpg,.jpeg" chooseLabel="Browse" styleClass="image-upload-class">
     </p-fileUpload>
