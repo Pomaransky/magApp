@@ -1,4 +1,5 @@
-import { Component, Injectable } from '@angular/core';
+import { GlfxFiltersService } from './services/glfx-filters.service';
+import { Component, EventEmitter, Injectable, Output } from '@angular/core';
 // @ts-ignore
 import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,14 +20,21 @@ export class AppComponent {
   isImageVisible$ = new BehaviorSubject<boolean>(false);
   display = false;
 
+  constructor(private glfxFiltersService: GlfxFiltersService) {}
+
   selectImage(event: any) {
-    this.removeImage();
+    if (this.canvas) {
+      this.removeImage();
+    }
     this.selectedFile = event.files[0];
     this.filename = event.files[0].name;
     this.reader.readAsDataURL(this.selectedFile);
     this.reader.onload = (_event) => {
       this.url = this.reader.result;
     };
+    setTimeout(() => {
+      this.display = false;
+    }, 1000);
   }
 
   editSelectedImage() {
@@ -56,14 +64,17 @@ export class AppComponent {
   }
 
   removeImage() {
-    if (this.canvas) {
-      this.canvas.remove();
-      this.isImageVisible$.next(false);
-      this.url = null;
-    }
+    this.canvas.remove();
+    this.isImageVisible$.next(false);
+    this.url = null;
   }
 
-  inkValueChange(event: any) {
-    this.canvas.draw(this.texture).ink(event.target.value).update();
+  resuableFunction(event: any) {
+    this.glfxFiltersService.resuableFunction(
+      event,
+      this.canvas,
+      this.texture,
+      'ink'
+    );
   }
 }

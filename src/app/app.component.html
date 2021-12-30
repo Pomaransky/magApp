@@ -1,9 +1,9 @@
 <div class="app-container grid py-6" style="text-align:center">
   <p-button type="text" (click)="display = true" icon="pi pi-upload" label="Upload image" class="menu-button">
   </p-button>
-  <p-sidebar [(visible)]="display" position="top">
-    <p-fileUpload class="col-12" (uploadHandler)="selectImage($event)" (onRemove)="removeImage()" [customUpload]="true"
-      [auto]="true" accept=".png,.jpg,.jpeg" chooseLabel="Browse" styleClass="image-upload-class">
+  <p-sidebar [(visible)]="display" position="top" styleClass="upload-sidebar-class">
+    <p-fileUpload (uploadHandler)="selectImage($event)" (onRemove)="removeImage()" [customUpload]="true" [auto]="true"
+      accept=".png,.jpg,.jpeg" chooseLabel="Browse" styleClass="image-upload-class">
     </p-fileUpload>
   </p-sidebar>
   <div class="col-12">
@@ -14,7 +14,7 @@
       (click)="editSelectedImage()">
       <i class="pi pi-pencil mr-2"></i>Edit selected image</button>
     <ng-container *ngIf="isImageVisible$ | async">
-      <input type="range" id="ink" name="ink" min="0" max="1" step="0.01" value="0" (input)="inkValueChange($event)">
+      <input type="range" id="ink" name="ink" min="0" max="1" step="0.01" value="0" (input)="resuableFunction($event)">
       <label for="ink">Ink</label>
       <button pButton class="p-button-success download-button" (click)="downloadImage()">
         <i class="pi pi-download mr-2"></i>Download image</button>
