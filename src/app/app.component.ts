@@ -3,8 +3,9 @@ import { Component, EventEmitter, Injectable, Output } from '@angular/core';
 // @ts-ignore
 import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { AppFacade } from './app.facade';
+import { ImageInterface } from './models/image.model';
 @Injectable()
 @Component({
   selector: 'app-root',
@@ -12,16 +13,19 @@ import { AppFacade } from './app.facade';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  url: string | ArrayBuffer | null = null;
-  selectedFile: Blob = new Blob();
-  reader = new FileReader();
-  canvas: any;
-  texture: any;
-  filename: string = '';
+  image: ImageInterface = {
+    url: null,
+    selectedFile: new Blob(),
+    reader: new FileReader(),
+    canvas: undefined,
+    texture: undefined,
+    filename: '',
+  };
+
   isImageVisible$ = new BehaviorSubject<boolean>(false);
 
   // from ngrx store below:
-  isMenuVisible$ = this.appFacade.isMenuVisible$;
+  isMenuVisible$: Observable<boolean> = this.appFacade.isMenuVisible$;
 
   constructor(
     private glfxFiltersService: GlfxFiltersService,
@@ -33,61 +37,71 @@ export class AppComponent {
   }
 
   hideMenu(): void {
-    this.appFacade.hideMenu();
+    // in this case is smth wrong with p-sidebar component from primeng which is calls 2 times hide menu action
+    this.isMenuVisible$
+      .pipe(
+        take(1),
+        tap((isMenuVisible) => {
+          if (isMenuVisible) {
+            this.appFacade.hideMenu();
+          }
+        })
+      )
+      .subscribe();
   }
 
   selectImage(event: any) {
-    if (this.canvas) {
+    if (this.image.canvas) {
       this.removeImage();
     }
-    this.selectedFile = event.files[0];
-    this.filename = event.files[0].name;
-    this.reader.readAsDataURL(this.selectedFile);
-    this.reader.onload = (_event) => {
-      this.url = this.reader.result;
+    this.image.selectedFile = event.files[0];
+    this.image.filename = event.files[0].name;
+    this.image.reader.readAsDataURL(this.image.selectedFile);
+    this.image.reader.onload = (_event) => {
+      this.image.url = this.image.reader.result;
     };
     setTimeout(() => {
       this.appFacade.hideMenu();
-    }, 1000);
+    }, 500);
   }
 
   editSelectedImage() {
-    if (this.selectedFile) {
-      this.canvas = fx.canvas();
+    if (this.image.selectedFile) {
+      this.image.canvas = fx.canvas();
       let image = document.getElementById('image');
-      this.texture = this.canvas.texture(image);
-      this.canvas.draw(this.texture).update(); //before update use filters
+      this.image.texture = this.image.canvas.texture(image);
+      this.image.canvas.draw(this.image.texture).update(); //before update use filters
       if (image?.parentNode) {
-        this.canvas.classList.add('mx-auto');
-        this.canvas.classList.add('max-w-full');
+        this.image.canvas.classList.add('mx-auto');
+        this.image.canvas.classList.add('max-w-full');
         this.isImageVisible$.next(true);
-        image.parentNode.insertBefore(this.canvas, image);
+        image.parentNode.insertBefore(this.image.canvas, image);
       }
     }
   }
 
   downloadImage() {
-    this.canvas.update();
+    this.image.canvas.update();
     let link = document.createElement('a');
-    let dotIndex = this.filename.indexOf('.');
-    this.filename = this.filename.slice(0, dotIndex);
-    link.download = `${this.filename}-editedByMagApp.png`;
-    link.href = this.canvas.toDataURL();
+    let dotIndex = this.image.filename.indexOf('.');
+    this.image.filename = this.image.filename.slice(0, dotIndex);
+    link.download = `${this.image.filename}-editedByMagApp.png`;
+    link.href = this.image.canvas.toDataURL();
     link.click();
     this.removeImage();
   }
 
   removeImage() {
-    this.canvas.remove();
+    this.image.canvas.remove();
     this.isImageVisible$.next(false);
-    this.url = null;
+    this.image.url = null;
   }
 
   resuableFunction(event: any) {
     this.glfxFiltersService.resuableFunction(
       event,
-      this.canvas,
-      this.texture,
+      this.image.canvas,
+      this.image.texture,
       'ink'
     );
   }

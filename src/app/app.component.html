@@ -7,10 +7,10 @@
     </p-fileUpload>
   </p-sidebar>
   <div class="col-12">
-    <img [src]="url" id="image">
+    <img [src]="image.url" id="image">
   </div>
   <div class="col-12">
-    <button [disabled]="!url || (isImageVisible$ | async)" pButton class="p-button-primary edit-button"
+    <button [disabled]="!image.url || (isImageVisible$ | async)" pButton class="p-button-primary edit-button"
       (click)="editSelectedImage()">
       <i class="pi pi-pencil mr-2"></i>Edit selected image</button>
     <ng-container *ngIf="isImageVisible$ | async">
