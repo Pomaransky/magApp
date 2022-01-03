@@ -14,8 +14,8 @@
       (click)="editSelectedImage()">
       <i class="pi pi-pencil mr-2"></i>Edit selected image</button>
     <ng-container *ngIf="isImageVisible$ | async">
-      <input type="range" id="ink" name="ink" min="0" max="1" step="0.01" value="0" (input)="resuableFunction($event)">
-      <label for="ink">Ink</label>
+      <app-filter-input [image]="image" functionName="inkValueChange"></app-filter-input>
+      <app-filter-input [image]="image" functionName="vibrance"></app-filter-input>
       <button pButton class="p-button-success download-button" (click)="downloadImage()">
         <i class="pi pi-download mr-2"></i>Download image</button>
     </ng-container>

@@ -14,9 +14,10 @@ import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './store/reducers';
 import { AppFacade } from './app.facade';
+import { FilterInputComponent } from './components/filter-input/filter-input.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, FilterInputComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),

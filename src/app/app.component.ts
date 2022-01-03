@@ -5,7 +5,11 @@ import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AppFacade } from './app.facade';
-import { ImageInterface } from './models/image.model';
+import {
+  FilterInputInterface,
+  FunctionNamesEnum,
+  ImageInterface,
+} from './models/image.model';
 @Injectable()
 @Component({
   selector: 'app-root',
@@ -27,10 +31,7 @@ export class AppComponent {
   // from ngrx store below:
   isMenuVisible$: Observable<boolean> = this.appFacade.isMenuVisible$;
 
-  constructor(
-    private glfxFiltersService: GlfxFiltersService,
-    private appFacade: AppFacade
-  ) {}
+  constructor(private appFacade: AppFacade) {}
 
   showMenu(): void {
     this.appFacade.showMenu();
@@ -95,14 +96,5 @@ export class AppComponent {
     this.image.canvas.remove();
     this.isImageVisible$.next(false);
     this.image.url = null;
-  }
-
-  resuableFunction(event: any) {
-    this.glfxFiltersService.resuableFunction(
-      event,
-      this.image.canvas,
-      this.image.texture,
-      'ink'
-    );
   }
 }
