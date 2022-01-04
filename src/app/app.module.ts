@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -15,6 +16,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './store/reducers';
 import { AppFacade } from './app.facade';
 import { FilterInputComponent } from './components/filter-input/filter-input.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [AppComponent, FilterInputComponent],
@@ -25,8 +27,12 @@ import { FilterInputComponent } from './components/filter-input/filter-input.com
     AppRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
+    DropdownModule,
     FileUploadModule,
     SidebarModule,
+    SelectButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     StoreDevtoolsModule.instrument({

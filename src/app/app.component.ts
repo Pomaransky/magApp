@@ -5,11 +5,7 @@ import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AppFacade } from './app.facade';
-import {
-  FilterInputInterface,
-  FunctionNamesEnum,
-  ImageInterface,
-} from './models/image.model';
+import { ImageInterface } from './models/image.model';
 @Injectable()
 @Component({
   selector: 'app-root',
@@ -21,10 +17,13 @@ export class AppComponent {
     url: null,
     selectedFile: new Blob(),
     reader: new FileReader(),
-    canvas: undefined,
+    canvas: fx.canvas(),
     texture: undefined,
     filename: '',
   };
+
+  data = ['inkValueChange', 'vibrance'];
+  selectedFilter: string = 'inkValueChange';
 
   isImageVisible$ = new BehaviorSubject<boolean>(false);
 
@@ -51,6 +50,11 @@ export class AppComponent {
       .subscribe();
   }
 
+  changeSelected(event: any) {
+    this.image.canvas.draw(this.image.texture).update();
+    this.selectedFilter = event.value;
+  }
+
   selectImage(event: any) {
     if (this.image.canvas) {
       this.removeImage();
@@ -68,7 +72,6 @@ export class AppComponent {
 
   editSelectedImage() {
     if (this.image.selectedFile) {
-      this.image.canvas = fx.canvas();
       let image = document.getElementById('image');
       this.image.texture = this.image.canvas.texture(image);
       this.image.canvas.draw(this.image.texture).update(); //before update use filters

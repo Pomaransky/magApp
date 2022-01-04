@@ -14,8 +14,12 @@
       (click)="editSelectedImage()">
       <i class="pi pi-pencil mr-2"></i>Edit selected image</button>
     <ng-container *ngIf="isImageVisible$ | async">
-      <app-filter-input [image]="image" functionName="inkValueChange"></app-filter-input>
-      <app-filter-input [image]="image" functionName="vibrance"></app-filter-input>
+      <div>
+        <label for="dropdown">Filter</label>
+        <p-dropdown inputId="dropdown" [autoDisplayFirst]="true" [options]="data" (onChange)="changeSelected($event)">
+        </p-dropdown>
+      </div>
+      <app-filter-input [image]="image" [functionName]="selectedFilter"></app-filter-input>
       <button pButton class="p-button-success download-button" (click)="downloadImage()">
         <i class="pi pi-download mr-2"></i>Download image</button>
     </ng-container>
