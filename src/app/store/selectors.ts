@@ -10,3 +10,10 @@ export const isMenuVisibleSelector = createSelector(
     return appState.isMenuVisible;
   }
 );
+
+export const inputAttributesSelector = createSelector(
+  appFeatureSelector,
+  (appState: AppStateInterface) => {
+    return appState.inputAttributes;
+  }
+);

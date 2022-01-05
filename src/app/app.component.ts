@@ -5,7 +5,11 @@ import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AppFacade } from './app.facade';
-import { ImageInterface } from './models/image.model';
+import {
+  FunctionNamesEnum,
+  ImageInterface,
+  inputAttributesForFilters,
+} from './models/image.model';
 @Injectable()
 @Component({
   selector: 'app-root',
@@ -21,6 +25,7 @@ export class AppComponent {
     texture: undefined,
     filename: '',
   };
+  functionName = FunctionNamesEnum.inkValueChange;
 
   data = ['inkValueChange', 'vibrance'];
   selectedFilter: string = 'inkValueChange';
@@ -53,6 +58,12 @@ export class AppComponent {
   changeSelected(event: any) {
     this.image.canvas.draw(this.image.texture).update();
     this.selectedFilter = event.value;
+    this.functionName = event.value;
+    console.log(this.selectedFilter);
+    console.log(this.functionName);
+    this.appFacade.changeInputAttributes(
+      inputAttributesForFilters[this.functionName]
+    );
   }
 
   selectImage(event: any) {

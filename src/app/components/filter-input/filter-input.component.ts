@@ -1,3 +1,4 @@
+import { AppFacade } from './../../app.facade';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FilterInputInterface,
@@ -12,12 +13,7 @@ import { GlfxFiltersService } from './../../services/glfx-filters.service';
   styleUrls: ['./filter-input.component.scss'],
 })
 export class FilterInputComponent implements OnInit {
-  inputAttr = {
-    inputMin: '0',
-    inputMax: '1',
-    inputValue: '0',
-    inputStep: '0.01',
-  };
+  inputAttributes$ = this.appFacade.inputAttributes$;
 
   @Input() image: ImageInterface = {
     url: null,
@@ -45,10 +41,13 @@ export class FilterInputComponent implements OnInit {
     },
   };
 
-  constructor(private glfxFiltersService: GlfxFiltersService) {}
+  constructor(
+    private glfxFiltersService: GlfxFiltersService,
+    private appFacade: AppFacade
+  ) {}
 
   ngOnInit(): void {
-    this.inputAttr = this.filtersX[this.functionName];
+    this.appFacade.changeInputAttributes(this.filtersX[this.functionName]);
   }
   resuableFunction(event: any) {
     this.glfxFiltersService.resuableFunction(
