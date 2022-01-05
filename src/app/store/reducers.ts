@@ -3,6 +3,7 @@ import { AppStateInterface } from '../models/app.model';
 import { showMenuAction } from './actions/showMenu.action';
 import { hideMenuAction } from './actions/hideMenu.action';
 import { changeInputAttributesAction } from './actions/changeInputAttributes.action';
+import { changeInputValueAction } from './actions/changeInputValue.action';
 
 const initialState: AppStateInterface = {
   isMenuVisible: false,
@@ -27,6 +28,13 @@ const appReducer = createReducer(
   on(changeInputAttributesAction, (state, action) => ({
     ...state,
     inputAttributes: action,
+  })),
+  on(changeInputValueAction, (state, action) => ({
+    ...state,
+    inputAttributes: {
+      ...state.inputAttributes,
+      inputValue: action.value,
+    },
   }))
 );
 

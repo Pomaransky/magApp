@@ -16,10 +16,11 @@
     <ng-container *ngIf="isImageVisible$ | async">
       <div>
         <label for="dropdown">Filter</label>
-        <p-dropdown inputId="dropdown" [autoDisplayFirst]="true" [options]="data" (onChange)="changeSelected($event)">
+        <p-dropdown inputId="dropdown" [options]="filterNames" (onChange)="changeSelected($event)"
+          [(ngModel)]="functionName" optionLabel="name" optionValue="value">
         </p-dropdown>
       </div>
-      <app-filter-input [image]="image" [functionName]="selectedFilter"></app-filter-input>
+      <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input>
       <button pButton class="p-button-success download-button" (click)="downloadImage()">
         <i class="pi pi-download mr-2"></i>Download image</button>
     </ng-container>

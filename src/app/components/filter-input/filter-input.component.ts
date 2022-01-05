@@ -1,10 +1,6 @@
 import { AppFacade } from './../../app.facade';
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FilterInputInterface,
-  FunctionNamesEnum,
-  ImageInterface,
-} from 'src/app/models/image.model';
+import { Component, Input } from '@angular/core';
+import { FunctionNamesEnum, ImageInterface } from 'src/app/models/image.model';
 import { GlfxFiltersService } from './../../services/glfx-filters.service';
 
 @Component({
@@ -12,7 +8,7 @@ import { GlfxFiltersService } from './../../services/glfx-filters.service';
   templateUrl: './filter-input.component.html',
   styleUrls: ['./filter-input.component.scss'],
 })
-export class FilterInputComponent implements OnInit {
+export class FilterInputComponent {
   inputAttributes$ = this.appFacade.inputAttributes$;
 
   @Input() image: ImageInterface = {
@@ -24,32 +20,15 @@ export class FilterInputComponent implements OnInit {
     filename: '',
   };
 
-  @Input() functionName = FunctionNamesEnum.inkValueChange;
-
-  filtersX = {
-    inkValueChange: {
-      inputMin: '0',
-      inputMax: '1',
-      inputValue: '0',
-      inputStep: '0.01',
-    },
-    vibrance: {
-      inputMin: '-1',
-      inputMax: '1',
-      inputValue: '0',
-      inputStep: '0.01',
-    },
-  };
+  @Input() functionName = FunctionNamesEnum.ink;
 
   constructor(
     private glfxFiltersService: GlfxFiltersService,
     private appFacade: AppFacade
   ) {}
 
-  ngOnInit(): void {
-    this.appFacade.changeInputAttributes(this.filtersX[this.functionName]);
-  }
   resuableFunction(event: any) {
+    this.appFacade.changeInputValue(event.target.value);
     this.glfxFiltersService.resuableFunction(
       event,
       this.image.canvas,

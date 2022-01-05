@@ -16,7 +16,7 @@ export class GlfxFiltersService {
     this[functionName](event, canvas, texture);
   }
 
-  inkValueChange(event: any, canvas: any, texture: any) {
+  ink(event: any, canvas: any, texture: any) {
     canvas.draw(texture).ink(event.target.value).update();
   }
   vibrance(event: any, canvas: any, texture: any) {

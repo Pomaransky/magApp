@@ -8,7 +8,7 @@ export interface ImageInterface {
 }
 
 export enum FunctionNamesEnum {
-  inkValueChange = 'inkValueChange',
+  ink = 'ink',
   vibrance = 'vibrance',
 }
 
@@ -29,7 +29,7 @@ export interface InputAttributesInterface {
 }
 
 export const inputAttributesForFilters = {
-  inkValueChange: {
+  ink: {
     inputMin: '0',
     inputMax: '1',
     inputValue: '0',

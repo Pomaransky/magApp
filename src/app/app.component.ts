@@ -25,14 +25,20 @@ export class AppComponent {
     texture: undefined,
     filename: '',
   };
-  functionName = FunctionNamesEnum.inkValueChange;
-
-  data = ['inkValueChange', 'vibrance'];
-  selectedFilter: string = 'inkValueChange';
+  functionName = FunctionNamesEnum.ink;
+  filterNames = [
+    {
+      value: 'ink',
+      name: 'Ink Filter',
+    },
+    {
+      value: 'vibrance',
+      name: 'Vibrance Filter',
+    },
+  ];
 
   isImageVisible$ = new BehaviorSubject<boolean>(false);
 
-  // from ngrx store below:
   isMenuVisible$: Observable<boolean> = this.appFacade.isMenuVisible$;
 
   constructor(private appFacade: AppFacade) {}
@@ -57,10 +63,7 @@ export class AppComponent {
 
   changeSelected(event: any) {
     this.image.canvas.draw(this.image.texture).update();
-    this.selectedFilter = event.value;
     this.functionName = event.value;
-    console.log(this.selectedFilter);
-    console.log(this.functionName);
     this.appFacade.changeInputAttributes(
       inputAttributesForFilters[this.functionName]
     );
