@@ -25,7 +25,7 @@ export class AppComponent {
     texture: undefined,
     filename: '',
   };
-  functionName = FunctionNamesEnum.ink;
+  functionNames = [FunctionNamesEnum.ink, FunctionNamesEnum.vibrance];
   filterNames = [
     {
       value: 'ink',
@@ -63,10 +63,12 @@ export class AppComponent {
 
   changeSelected(event: any) {
     this.image.canvas.draw(this.image.texture).update();
-    this.functionName = event.value;
-    this.appFacade.changeInputAttributes(
-      inputAttributesForFilters[this.functionName]
-    );
+    this.functionNames = [event.value];
+    this.functionNames.forEach((functionName) => {
+      this.appFacade.changeInputAttributes(
+        inputAttributesForFilters[functionName]
+      );
+    });
   }
 
   selectImage(event: any) {

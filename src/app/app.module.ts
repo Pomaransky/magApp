@@ -17,9 +17,10 @@ import { reducers } from './store/reducers';
 import { AppFacade } from './app.facade';
 import { FilterInputComponent } from './components/filter-input/filter-input.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { NewFilterInputComponent } from './components/new-filter-input/new-filter-input.component';
 
 @NgModule({
-  declarations: [AppComponent, FilterInputComponent],
+  declarations: [AppComponent, FilterInputComponent, NewFilterInputComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),

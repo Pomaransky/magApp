@@ -20,7 +20,8 @@
           [(ngModel)]="functionName" optionLabel="name" optionValue="value">
         </p-dropdown>
       </div>
-      <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input>
+      <!-- <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input> -->
+      <app-new-filter-input [image]="image" [functionNames]="['ink','vibrance']"></app-new-filter-input>
       <button pButton class="p-button-success download-button" (click)="downloadImage()">
         <i class="pi pi-download mr-2"></i>Download image</button>
     </ng-container>
