@@ -4,6 +4,9 @@ import { showMenuAction } from './actions/showMenu.action';
 import { hideMenuAction } from './actions/hideMenu.action';
 import { changeInputAttributesAction } from './actions/changeInputAttributes.action';
 import { changeInputValueAction } from './actions/changeInputValue.action';
+// @ts-ignore
+import * as fx from 'glfx-es6';
+import { updateImageAction } from './actions/updateImage.action';
 
 const initialState: AppStateInterface = {
   isMenuVisible: false,
@@ -12,6 +15,14 @@ const initialState: AppStateInterface = {
     inputMax: '1',
     inputValue: '0',
     inputStep: '0.01',
+  },
+  image: {
+    url: null,
+    selectedFile: new Blob(),
+    reader: new FileReader(),
+    canvas: fx.canvas(),
+    texture: null,
+    filename: '',
   },
 };
 
@@ -35,6 +46,10 @@ const appReducer = createReducer(
       ...state.inputAttributes,
       inputValue: action.value,
     },
+  })),
+  on(updateImageAction, (state, action) => ({
+    ...state,
+    image: action.image,
   }))
 );
 

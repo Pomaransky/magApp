@@ -22,9 +22,10 @@ export class AppComponent {
     selectedFile: new Blob(),
     reader: new FileReader(),
     canvas: fx.canvas(),
-    texture: undefined,
+    texture: null,
     filename: '',
   };
+  imageStore$: Observable<ImageInterface> = this.appFacade.imageStore$;
   functionNames = [FunctionNamesEnum.ink, FunctionNamesEnum.vibrance];
   filterNames = [
     {
@@ -82,6 +83,14 @@ export class AppComponent {
       this.image.url = this.image.reader.result;
     };
     setTimeout(() => {
+      this.appFacade.updateImage({
+        url: this.image.url,
+        selectedFile: this.image.selectedFile,
+        reader: this.image.reader,
+        canvas: fx.canvas(),
+        texture: this.image.texture,
+        filename: this.image.filename,
+      });
       this.appFacade.hideMenu();
     }, 500);
   }
@@ -96,6 +105,7 @@ export class AppComponent {
         this.image.canvas.classList.add('max-w-full');
         this.isImageVisible$.next(true);
         image.parentNode.insertBefore(this.image.canvas, image);
+        this.appFacade.updateImage(this.image);
       }
     }
   }
@@ -109,11 +119,13 @@ export class AppComponent {
     link.href = this.image.canvas.toDataURL();
     link.click();
     this.removeImage();
+    // this.appFacade.updateImage(this.image);
   }
 
   removeImage() {
     this.image.canvas.remove();
     this.isImageVisible$.next(false);
     this.image.url = null;
+    // this.appFacade.updateImage(this.image);
   }
 }

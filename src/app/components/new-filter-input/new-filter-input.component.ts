@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FunctionNamesEnum, ImageInterface } from 'src/app/models/image.model';
 import { AppFacade } from './../../app.facade';
 import { GlfxFiltersService } from './../../services/glfx-filters.service';
@@ -17,6 +19,7 @@ export class NewFilterInputComponent implements OnInit {
     texture: undefined,
     filename: '',
   };
+  imageStore$: Observable<ImageInterface> = this.appFacade.imageStore$;
   inputAttributes$ = this.appFacade.inputAttributes$;
   @Input() functionNames = [FunctionNamesEnum.ink];
 
