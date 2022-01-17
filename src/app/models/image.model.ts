@@ -10,6 +10,9 @@ export interface ImageInterface {
 export enum FunctionNamesEnum {
   ink = 'ink',
   vibrance = 'vibrance',
+  brightness = 'brightness',
+  contrast = 'contrast',
+  edgeWork = 'edgeWork',
 }
 
 export interface FilterInputInterface {
@@ -40,5 +43,23 @@ export const inputAttributesForFilters = {
     inputMax: '1',
     inputValue: '0',
     inputStep: '0.01',
+  },
+  brightness: {
+    inputMin: '-1',
+    inputMax: '1',
+    inputValue: '0',
+    inputStep: '0.01',
+  },
+  contrast: {
+    inputMin: '-1',
+    inputMax: '1',
+    inputValue: '0',
+    inputStep: '0.01',
+  },
+  edgeWork: {
+    inputMin: '0',
+    inputMax: '200',
+    inputValue: '5',
+    inputStep: '1',
   },
 };

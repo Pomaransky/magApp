@@ -1,5 +1,4 @@
-import { GlfxFiltersService } from './services/glfx-filters.service';
-import { Component, EventEmitter, Injectable, Output } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 // @ts-ignore
 import * as fx from 'glfx-es6';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -35,6 +34,18 @@ export class AppComponent {
       value: 'vibrance',
       name: 'Vibrance Filter',
     },
+    {
+      value: 'brightness',
+      name: 'Brightness Filter',
+    },
+    {
+      value: 'contrast',
+      name: 'Contrast Filter',
+    },
+    {
+      value: 'edgeWork',
+      name: 'Edge Work Filter',
+    },
   ];
 
   isImageVisible$ = new BehaviorSubject<boolean>(false);
@@ -62,6 +73,13 @@ export class AppComponent {
 
   changeSelected(event: any) {
     this.functionName = event.value;
+    if (this.functionName === FunctionNamesEnum.edgeWork) {
+      this.image.canvas.draw(this.image.texture).edgeWork(5).update();
+      this.appFacade.changeSaveStatus(false);
+    } else {
+      this.image.canvas.draw(this.image.texture).update();
+      this.appFacade.changeSaveStatus(true);
+    }
     this.appFacade.changeInputAttributes(
       inputAttributesForFilters[this.functionName]
     );
@@ -86,7 +104,7 @@ export class AppComponent {
     if (this.image.selectedFile) {
       let image = document.getElementById('image');
       this.image.texture = this.image.canvas.texture(image);
-      this.image.canvas.draw(this.image.texture).update(); //before update use filters
+      this.image.canvas.draw(this.image.texture).update();
       if (image?.parentNode) {
         this.image.canvas.classList.add('mx-auto');
         this.image.canvas.classList.add('max-w-full');
