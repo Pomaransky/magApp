@@ -35,5 +35,6 @@ export class FilterInputComponent {
       this.image.texture,
       this.functionName
     );
+    this.appFacade.changeSaveStatus(false);
   }
 }

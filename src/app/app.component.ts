@@ -38,8 +38,8 @@ export class AppComponent {
   ];
 
   isImageVisible$ = new BehaviorSubject<boolean>(false);
-
   isMenuVisible$: Observable<boolean> = this.appFacade.isMenuVisible$;
+  isChangesSaved$: Observable<boolean> = this.appFacade.saveStatus$;
 
   constructor(private appFacade: AppFacade) {}
 
@@ -48,7 +48,6 @@ export class AppComponent {
   }
 
   hideMenu(): void {
-    // in this case is smth wrong with p-sidebar component from primeng which is calls 2 times hide menu action
     this.isMenuVisible$
       .pipe(
         take(1),
@@ -62,7 +61,6 @@ export class AppComponent {
   }
 
   changeSelected(event: any) {
-    this.image.canvas.draw(this.image.texture).update();
     this.functionName = event.value;
     this.appFacade.changeInputAttributes(
       inputAttributesForFilters[this.functionName]
@@ -92,6 +90,7 @@ export class AppComponent {
       if (image?.parentNode) {
         this.image.canvas.classList.add('mx-auto');
         this.image.canvas.classList.add('max-w-full');
+        this.image.canvas.setAttribute('id', 'canvasImage');
         this.isImageVisible$.next(true);
         image.parentNode.insertBefore(this.image.canvas, image);
       }
@@ -113,5 +112,13 @@ export class AppComponent {
     this.image.canvas.remove();
     this.isImageVisible$.next(false);
     this.image.url = null;
+  }
+
+  saveChanges() {
+    this.image.canvas.update();
+    this.image.texture = this.image.canvas.texture(
+      document.getElementById('canvasImage')
+    );
+    this.appFacade.changeSaveStatus(true);
   }
 }

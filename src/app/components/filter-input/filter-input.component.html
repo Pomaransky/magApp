@@ -1,5 +1,4 @@
 <ng-container *ngIf="inputAttributes$ | async as inputAttr">
   <input type="range" id="glfx-filter" [name]="functionName" [min]="inputAttr.inputMin" [max]="inputAttr.inputMax"
     [step]="inputAttr.inputStep" [value]="inputAttr.inputValue" (input)="resuableFunction($event)">
-  <label for="glfx-filter">{{ functionName }}</label>
 </ng-container>

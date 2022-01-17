@@ -17,3 +17,10 @@ export const inputAttributesSelector = createSelector(
     return appState.inputAttributes;
   }
 );
+
+export const saveStatusSelector = createSelector(
+  appFeatureSelector,
+  (appState: AppStateInterface) => {
+    return appState.saveStatus;
+  }
+);

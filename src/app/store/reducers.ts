@@ -4,6 +4,7 @@ import { showMenuAction } from './actions/showMenu.action';
 import { hideMenuAction } from './actions/hideMenu.action';
 import { changeInputAttributesAction } from './actions/changeInputAttributes.action';
 import { changeInputValueAction } from './actions/changeInputValue.action';
+import { changeSaveStatusAction } from './actions/changeSaveStatus.action';
 
 const initialState: AppStateInterface = {
   isMenuVisible: false,
@@ -13,6 +14,7 @@ const initialState: AppStateInterface = {
     inputValue: '0',
     inputStep: '0.01',
   },
+  saveStatus: true,
 };
 
 const appReducer = createReducer(
@@ -35,7 +37,14 @@ const appReducer = createReducer(
       ...state.inputAttributes,
       inputValue: action.value,
     },
-  }))
+  })),
+  on(
+    changeSaveStatusAction,
+    (state, action): AppStateInterface => ({
+      ...state,
+      saveStatus: action.saveStatus,
+    })
+  )
 );
 
 export function reducers(
