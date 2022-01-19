@@ -139,4 +139,13 @@ export class AppComponent {
     );
     this.appFacade.changeSaveStatus(true);
   }
+
+  discardChanges() {
+    this.image.canvas.update();
+    let image = document.getElementById('image');
+    this.image.texture = this.image.canvas.texture(image);
+    this.image.canvas.draw(this.image.texture).update();
+    this.appFacade.changeInputValue('0');
+    this.appFacade.changeSaveStatus(true);
+  }
 }
