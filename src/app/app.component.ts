@@ -5,6 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AppFacade } from './app.facade';
 import {
+  FilterNameInterface,
+  filterNames,
   FunctionNamesEnum,
   ImageInterface,
   inputAttributesForFilters,
@@ -24,29 +26,8 @@ export class AppComponent {
     texture: undefined,
     filename: '',
   };
-  functionName = FunctionNamesEnum.ink;
-  filterNames = [
-    {
-      value: 'ink',
-      name: 'Ink Filter',
-    },
-    {
-      value: 'vibrance',
-      name: 'Vibrance Filter',
-    },
-    {
-      value: 'brightness',
-      name: 'Brightness Filter',
-    },
-    {
-      value: 'contrast',
-      name: 'Contrast Filter',
-    },
-    {
-      value: 'edgeWork',
-      name: 'Edge Work Filter',
-    },
-  ];
+  functionName: FunctionNamesEnum = FunctionNamesEnum.ink;
+  filterNames: FilterNameInterface[] = filterNames;
 
   isImageVisible$ = new BehaviorSubject<boolean>(false);
   isMenuVisible$: Observable<boolean> = this.appFacade.isMenuVisible$;
@@ -89,7 +70,6 @@ export class AppComponent {
     if (this.image.canvas) {
       this.removeImage();
     }
-    console.log(event.files[0]);
     this.image.selectedFile = event.files[0];
     this.image.filename = event.files[0].name;
     this.image.reader.readAsDataURL(this.image.selectedFile);

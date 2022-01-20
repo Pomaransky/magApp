@@ -31,6 +31,11 @@ export interface InputAttributesInterface {
   inputStep: string;
 }
 
+export interface FilterNameInterface {
+  value: string;
+  name: string;
+}
+
 export const inputAttributesForFilters = {
   ink: {
     inputMin: '0',
@@ -63,3 +68,26 @@ export const inputAttributesForFilters = {
     inputStep: '1',
   },
 };
+
+export const filterNames: FilterNameInterface[] = [
+  {
+    value: 'ink',
+    name: 'Ink Filter',
+  },
+  {
+    value: 'vibrance',
+    name: 'Vibrance Filter',
+  },
+  {
+    value: 'brightness',
+    name: 'Brightness Filter',
+  },
+  {
+    value: 'contrast',
+    name: 'Contrast Filter',
+  },
+  {
+    value: 'edgeWork',
+    name: 'Edge Work Filter',
+  },
+];
