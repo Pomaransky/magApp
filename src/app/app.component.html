@@ -3,7 +3,7 @@
   </button>
   <p-sidebar [visible]="isMenuVisible$ | async" position="top" styleClass="upload-sidebar-class" (onHide)="hideMenu()">
     <p-fileUpload (uploadHandler)="selectImage($event)" (onRemove)="removeImage()" [customUpload]="true" [auto]="true"
-      accept=".png,.jpg,.jpeg" chooseLabel="Browse" styleClass="image-upload-class">
+      accept=".png,.jpg,.jpeg" maxFileSize="1000000" chooseLabel="Browse" styleClass="image-upload-class">
     </p-fileUpload>
   </p-sidebar>
   <div class="col-12">
@@ -14,17 +14,19 @@
       class="p-button-primary edit-button" (click)="editSelectedImage()"></button>
     <ng-container *ngIf="isImageVisible$ | async">
       <div>
-        <label for="dropdown">Choose filter</label>
+        <label for="dropdown" class="mr-2">Choose filter</label>
         <p-dropdown inputId="dropdown" [options]="filterNames" (onChange)="changeSelected($event)"
           [(ngModel)]="functionName" optionLabel="name" optionValue="value">
         </p-dropdown>
       </div>
       <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input>
-      <button pButton type="button" label="Save changes" icon="pi pi-save" class="p-button-success"
-        (click)="saveChanges()" [disabled]="isChangesSaved$ | async"></button>
-      <button pButton type="button" label="Discard changes" icon="pi pi-undo" class="p-button p-button-warning"
-        (click)="discardChanges()">
-      </button>
+      <div class="flex justify-content-center">
+        <button pButton type="button" label="Save changes" icon="pi pi-save" class="p-button-success action-button mr-1"
+          (click)="saveChanges()" [disabled]="isChangesSaved$ | async"></button>
+        <button pButton type="button" label="Discard changes" icon="pi pi-undo"
+          class="p-button p-button-warning action-button ml-1" (click)="discardChanges()">
+        </button>
+      </div>
       <button pButton type="button" label="Download image" icon="pi pi-download" class="download-button"
         (click)="downloadImage()"></button>
     </ng-container>

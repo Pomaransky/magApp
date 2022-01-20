@@ -89,6 +89,7 @@ export class AppComponent {
     if (this.image.canvas) {
       this.removeImage();
     }
+    console.log(event.files[0]);
     this.image.selectedFile = event.files[0];
     this.image.filename = event.files[0].name;
     this.image.reader.readAsDataURL(this.image.selectedFile);
