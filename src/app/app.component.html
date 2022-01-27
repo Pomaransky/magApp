@@ -9,27 +9,46 @@
   <div class="col-12">
     <img [src]="image.url" id="image">
   </div>
-  <div class="col-12">
+  <div class="col-12 flex justify-content-center">
     <button pButton label="Edit selected image" icon="pi pi-pencil" [disabled]="!image.url || (isImageVisible$ | async)"
       class="p-button-primary edit-button" (click)="editSelectedImage()"></button>
+
     <ng-container *ngIf="isImageVisible$ | async">
-      <div>
-        <label for="dropdown" class="mr-2">Choose filter</label>
-        <p-dropdown inputId="dropdown" [options]="filterNames" (onChange)="changeSelected($event)"
-          [(ngModel)]="functionName" optionLabel="name" optionValue="value">
-        </p-dropdown>
-      </div>
-      <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input>
-      <div class="flex justify-content-center">
-        <button pButton type="button" label="Save changes" icon="pi pi-save" class="p-button-success action-button mr-1"
-          (click)="saveChanges()" [disabled]="isChangesSaved$ | async"></button>
-        <button pButton type="button" label="Discard changes" icon="pi pi-undo"
-          class="p-button p-button-warning action-button ml-1" (click)="discardChanges()">
-        </button>
-      </div>
+
+      <p-tabView>
+
+        <p-tabPanel header="Filters">
+          <div>
+            <label for="dropdown" class="mr-2">Choose filter</label>
+            <p-dropdown inputId="dropdown" [options]="filterNames" (onChange)="changeSelected($event)"
+              [(ngModel)]="functionName" optionLabel="name" optionValue="value">
+            </p-dropdown>
+          </div>
+          <app-filter-input [image]="image" [functionName]="functionName"></app-filter-input>
+          <div class="flex justify-content-center">
+            <button pButton type="button" label="Save changes" icon="pi pi-save"
+              class="p-button-success action-button mr-1" (click)="saveChanges()"
+              [disabled]="isChangesSaved$ | async"></button>
+            <button pButton type="button" label="Discard changes" icon="pi pi-undo"
+              class="p-button p-button-warning action-button ml-1" (click)="discardChanges()">
+            </button>
+          </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Negative">
+          <button pButton type="button" label="Invert colors" (click)="invert()" class="mb-3"></button>
+          <div class="flex justify-content-center">
+            <button pButton type="button" label="Discard changes" icon="pi pi-undo"
+              class="p-button p-button-warning action-button ml-1" (click)="discardChanges()">
+            </button>
+          </div>
+        </p-tabPanel>
+
+      </p-tabView>
+
       <button pButton type="button" label="Download image" icon="pi pi-download" class="download-button"
         (click)="downloadImage()"></button>
-      <button pButton type="button" label="Invert" (click)="invert()"></button>
     </ng-container>
+
   </div>
 </div>
