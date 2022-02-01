@@ -116,10 +116,10 @@ export class AppComponent {
   }
 
   saveChanges() {
-    this.image.canvas.update();
     this.image.texture = this.image.canvas.texture(
       document.getElementById('canvasImage')
     );
+    this.image.canvas.draw(this.image.texture).update();
     this.appFacade.changeSaveStatus(true);
   }
 
@@ -227,9 +227,7 @@ export class AppComponent {
         gl.drawArrays(gl.TRIANGLES, 0, 6);
 
         //save changes
-        this.image.texture = this.image.canvas.texture(
-          document.getElementById('canvasImage')
-        );
+        this.saveChanges();
       }
     }
   }
