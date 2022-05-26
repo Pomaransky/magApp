@@ -1,0 +1,14 @@
+@import 'variables.scss';
+
+p-sidebar {
+  .upload-sidebar-class {
+    height: unset;
+    background-color: $color-silver;
+
+    .p-sidebar {
+      &-header {
+        padding: 16px 16px 0 16px;
+      }
+    }
+  }
+}

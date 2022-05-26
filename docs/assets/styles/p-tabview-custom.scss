@@ -1,0 +1,18 @@
+p-tabview {
+  .p-tabview {
+    width: 800px;
+
+    &-nav-container {
+      .p-tabview-nav-content {
+        border-radius: 4px 4px 0 0;
+      }
+    }
+
+    &-panels {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+    }
+  }
+}
