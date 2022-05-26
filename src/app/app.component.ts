@@ -19,7 +19,7 @@ import {
 })
 export class AppComponent {
   image: ImageInterface = {
-    url: null,
+    url: '',
     selectedFile: new Blob(),
     reader: new FileReader(),
     canvas: fx.canvas(),
@@ -74,7 +74,9 @@ export class AppComponent {
     this.image.filename = event.files[0].name;
     this.image.reader.readAsDataURL(this.image.selectedFile);
     this.image.reader.onload = (_event) => {
-      this.image.url = this.image.reader.result;
+      if (this.image.reader.result) {
+        this.image.url = this.image.reader.result.toString();
+      }
     };
     setTimeout(() => {
       this.appFacade.hideMenu();
@@ -110,14 +112,14 @@ export class AppComponent {
   removeImage() {
     this.image.canvas.remove();
     this.isImageVisible$.next(false);
-    this.image.url = null;
+    this.image.url = '';
   }
 
   saveChanges() {
-    this.image.canvas.update();
     this.image.texture = this.image.canvas.texture(
       document.getElementById('canvasImage')
     );
+    this.image.canvas.draw(this.image.texture).update();
     this.appFacade.changeSaveStatus(true);
   }
 
@@ -128,5 +130,105 @@ export class AppComponent {
     this.image.canvas.draw(this.image.texture).update();
     this.appFacade.changeInputValue('0');
     this.appFacade.changeSaveStatus(true);
+  }
+  invert() {
+    let canvas = <HTMLCanvasElement>document.getElementById('canvasImage');
+    let gl = canvas.getContext('webgl');
+    if (gl) {
+      let image = <HTMLImageElement>document.getElementById('image');
+      // gl.clearColor(1.0, 0.8, 0.1, 0.0);
+      // gl.clear(gl.COLOR_BUFFER_BIT);
+
+      const vertShaderSource = `
+			attribute vec2 position;
+
+			varying vec2 texCoords;
+			
+			void main(){
+				texCoords = (position + 1.0) / 2.0;
+				texCoords.y = 1.0 - texCoords.y;
+				gl_Position = vec4(position, 0, 1.0);
+			}
+			`;
+      const fragShaderSource = `
+			precision highp float;
+
+			varying vec2 texCoords;
+
+			uniform sampler2D textureSampler;
+
+			void main(){
+				vec4 color = texture2D(textureSampler, texCoords);
+				if((color.r-1.0) < 0.0){
+					color.r = (color.r - 1.0) * (-1.0);
+				} else {
+					color.r = color.r - 1.0;
+				}
+				if((color.g-1.0) < 0.0){
+					color.g = (color.g - 1.0) * (-1.0);
+				} else {
+					color.g = color.g - 1.0;
+				}
+				if((color.b-1.0) < 0.0){
+					color.b = (color.b - 1.0) * (-1.0);
+				} else {
+					color.b = color.b - 1.0;
+				}
+
+				gl_FragColor = color;
+			}
+			`;
+      const vertShader = gl.createShader(gl.VERTEX_SHADER);
+      const fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+      if (vertShader && fragShader) {
+        gl.shaderSource(vertShader, vertShaderSource);
+        gl.shaderSource(fragShader, fragShaderSource);
+        gl.compileShader(vertShader);
+        gl.compileShader(fragShader);
+
+        const program: any = gl.createProgram();
+        gl.attachShader(program, vertShader);
+        gl.attachShader(program, fragShader);
+
+        gl.linkProgram(program);
+
+        gl.useProgram(program);
+        const vertices = new Float32Array([
+          -1, -1, -1, 1, 1, 1,
+
+          -1, -1, 1, 1, 1, -1,
+        ]);
+        const vertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+        const positionLocation = gl.getAttribLocation(program, 'position');
+
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(positionLocation);
+
+        //TEXTURE
+        const tex = gl.createTexture();
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          image
+        );
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        //save changes
+        this.saveChanges();
+      }
+    }
   }
 }

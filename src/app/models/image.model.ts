@@ -1,5 +1,5 @@
 export interface ImageInterface {
-  url: string | ArrayBuffer | null;
+  url: string;
   selectedFile: Blob;
   reader: FileReader;
   canvas: any;

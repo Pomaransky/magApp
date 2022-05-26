@@ -17,7 +17,7 @@ import { reducers } from './store/reducers';
 import { AppFacade } from './app.facade';
 import { FilterInputComponent } from './components/filter-input/filter-input.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { TabViewModule } from 'primeng/tabview';
 @NgModule({
   declarations: [AppComponent, FilterInputComponent],
   imports: [
@@ -27,6 +27,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     AppRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
+    TabViewModule,
     DropdownModule,
     FileUploadModule,
     SidebarModule,

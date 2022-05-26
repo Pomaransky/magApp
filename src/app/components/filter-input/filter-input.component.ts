@@ -12,7 +12,7 @@ export class FilterInputComponent {
   inputAttributes$ = this.appFacade.inputAttributes$;
 
   @Input() image: ImageInterface = {
-    url: null,
+    url: '',
     selectedFile: new Blob(),
     reader: new FileReader(),
     canvas: undefined,
