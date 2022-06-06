@@ -1,6 +1,12 @@
 .app-container {
   font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
 
+  .signature {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+  }
+
   #image {
     display: none;
   }

@@ -1,4 +1,8 @@
 <div class="app-container grid py-6 mt-3" style="text-align:center">
+  <div class="signature text-left p-2 bg-white border-round">
+    <div>Praca magisterska</div>
+    <div>Autor: Pomarański Arkadiusz</div>
+  </div>
   <button pButton type="button" (click)="showMenu()" icon="pi pi-upload" label="Upload image" class="menu-button">
   </button>
   <p-sidebar [visible]="isMenuVisible$ | async" position="top" styleClass="upload-sidebar-class" (onHide)="hideMenu()">
