@@ -33,3 +33,11 @@
     width: 200px;
   }
 }
+
+@media (min-width:500px) {
+  .app-container {
+    .signature {
+      top: 20px;
+    }
+  }
+}
